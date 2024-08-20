@@ -1,13 +1,6 @@
 import '../style.css';
+import UI from './UI';
 
-const input = document.querySelector('.add-task-container input');
-input.addEventListener('focus',()=> {
-    const addTaskIconWrapper = document.querySelector('.icon-wrapper');
-    addTaskIconWrapper.querySelector('.onfocus').classList.add('show');
-    addTaskIconWrapper.querySelector('.default').classList.remove('show');
+document.addEventListener('DOMContentLoaded', () => {
+    UI.renderHomepage();
 });
-input.addEventListener('focusout',()=> {
-    const addTaskIconWrapper = document.querySelector('.icon-wrapper');
-    addTaskIconWrapper.querySelector('.onfocus').classList.remove('show');
-    addTaskIconWrapper.querySelector('.default').classList.add('show');
-})

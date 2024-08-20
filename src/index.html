@@ -8,28 +8,13 @@
     <div class="container">
         <div class="sidebar">
             <div class="user-info">
-                <div class="logo">
-
-                </div>
+                <div class="logo"></div>
                 <div class="username-container">
-                    <div class="name-wrapper">User name</div>
-                    <div class="email-wrapper">example@email.com</div>
+                    <div class="name-wrapper"></div>
+                    <div class="email-wrapper"></div>
                 </div>
             </div>
-            <div class="sidebar-item-container">
-                <div class="sidebar-item active" id="inbox">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M121 32C91.6 32 66 52 58.9 80.5L1.9 308.4C.6 313.5 0 318.7 0 323.9L0 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-92.1c0-5.2-.6-10.4-1.9-15.5l-57-227.9C446 52 420.4 32 391 32L121 32zm0 64l270 0 48 192-51.2 0c-12.1 0-23.2 6.8-28.6 17.7l-14.3 28.6c-5.4 10.8-16.5 17.7-28.6 17.7l-120.4 0c-12.1 0-23.2-6.8-28.6-17.7l-14.3-28.6c-5.4-10.8-16.5-17.7-28.6-17.7L73 288 121 96z"/></svg>
-                    <p>Inbox</p>
-                </div>
-                <div class="sidebar-item" id="inbox">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M128 0c17.7 0 32 14.3 32 32l0 32 128 0 0-32c0-17.7 14.3-32 32-32s32 14.3 32 32l0 32 48 0c26.5 0 48 21.5 48 48l0 48L0 160l0-48C0 85.5 21.5 64 48 64l48 0 0-32c0-17.7 14.3-32 32-32zM0 192l448 0 0 272c0 26.5-21.5 48-48 48L48 512c-26.5 0-48-21.5-48-48L0 192zm80 64c-8.8 0-16 7.2-16 16l0 96c0 8.8 7.2 16 16 16l96 0c8.8 0 16-7.2 16-16l0-96c0-8.8-7.2-16-16-16l-96 0z"/></svg>
-                    <p>Today</p>
-                </div>
-                <div class="sidebar-item" id="inbox">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M128 0c17.7 0 32 14.3 32 32l0 32 128 0 0-32c0-17.7 14.3-32 32-32s32 14.3 32 32l0 32 48 0c26.5 0 48 21.5 48 48l0 48L0 160l0-48C0 85.5 21.5 64 48 64l48 0 0-32c0-17.7 14.3-32 32-32zM0 192l448 0 0 272c0 26.5-21.5 48-48 48L48 512c-26.5 0-48-21.5-48-48L0 192zm80 64c-8.8 0-16 7.2-16 16l0 64c0 8.8 7.2 16 16 16l288 0c8.8 0 16-7.2 16-16l0-64c0-8.8-7.2-16-16-16L80 256z"/></svg>
-                    <p>This week</p>
-                </div>
-            </div>
+            <div class="sidebar-item-container"></div>
             <div class="sidebar-section" id="project">
                 <div class="section-content">
                     <h3 class="section-name">My Projects</h3>
@@ -44,18 +29,48 @@
         <div class="main-content">
             <div class="top">
                 <div class="heading-wrapper">
-                    <h1 class="heading">Today</h1>
-                    <div class="date-wrapper">Monday, 5th August</div>
+                    <h1 class="title">Today</h1>
+                    <div class="subtitle">Monday, 5th August</div>
                 </div>
-                <div class="task-list-container"></div>
+                <div class="task-list-container">
+                    <div id="empty-task-display-container" class="active">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M0 64C0 28.7 28.7 0 64 0L224 0l0 128c0 17.7 14.3 32 32 32l128 0 0 288c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 64zm384 64l-128 0L256 0 384 128z"/></svg>
+                        <p>No task</p>
+                    </div>
+                </div>
             </div>
             <div class="bot">
-                <div class="add-task-container">
-                    <div class="icon-wrapper">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="default show"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"/></svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="onfocus">!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.<path d="M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z"/></svg>
+                
+            </div>
+        </div>
+        <div class="task-detail-container">
+            <div class="task-detail">
+                <div class="task-detail-header">
+                    <div class="task-detail-header-left">
+                        <div class="task-detail-header-title">Test title</div>
+                        <div class="task-detail-header-date">2024-08-20</div>
                     </div>
-                    <input type="text" placeholder="Add a task" title="Add a task in this">
+                    <div class="task-detail-header-right">
+                        <div class="task-detail-header-status">Unfinished</div>
+                        <div class="task-detail-header-priority">Low</div>
+                    </div>
+                </div>
+                <div class="task-detail-content">
+                    <div class="task-detail-content-description">
+                        <input type="text" placeholder="Add a description here">
+                    </div>
+                    <div class="task-detail-content-assignee"></div>
+                    <div class="task-detail-content-comment"></div>
+                </div>
+                <div class="task-detail-footer">
+                    <div class="task-detail-footer-left">
+                        <div class="task-detail-footer-attachment"></div>
+                        <div class="task-detail-footer-subtask"></div>
+                    </div>
+                    <div class="task-detail-footer-right">
+                        <div class="task-detail-footer-edit"></div>
+                        <div class="task-detail-footer-delete"></div>
+                    </div>
                 </div>
             </div>
         </div>

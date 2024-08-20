@@ -19,17 +19,28 @@
     box-sizing: border-box;
 }
 
+h1 {
+    font-family: 'lato-bold', sans-serif;
+}
+
 .container {
+    height: 100vh;
+    width: 100vw;
+    max-width: 100%;
     display: grid;
-    grid-template-columns: minmax(220px,18%) 1fr;
+    grid-template-columns: minmax(220px,18%) 3fr 1fr;
 }
 
 .sidebar {
+    max-height: 100vh;
+    max-width: 100%;
     display: grid;
     grid-template-rows: 75px 1fr 3fr;
-    height: 100vh;
+    grid-template-columns: 1fr;
     background-color: #333;
     color: #fff;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .sidebar .user-info {
@@ -39,17 +50,48 @@
     border-bottom: 1px solid #444;
 }
 
-.sidebar-item-container > .sidebar-item {
+.sidebar .user-info .logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.sidebar .user-info .logo img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.sidebar .sidebar-item {
     display: flex;
     align-items: center;
     padding: 15px 20px;
-    font-size: 18px;
-    margin: 0.5rem 0;
+    margin: 0.5rem 0.4rem;
     cursor: pointer;
+    position: relative;
+    border-radius: 0.5rem;
 }
 
-.sidebar-item-container > .sidebar-item.active {
+.sidebar .sidebar-item.active,
+.sidebar .sidebar-item:hover {
     background-color: #444;
+}
+
+.sidebar .sidebar-item.active::before {
+    --indicator-width: 4px;
+    content: '';
+    position: absolute;
+    left: var(--indicator-width);
+    width: 4px;
+    height: 50%;
+    background-color: #76B9ED;
+    border-radius: 1rem;
+}
+
+.sidebar-item-container > .sidebar-item {
+    font-size: 18px;
 }
 
 .sidebar-item-container > .sidebar-item svg {
@@ -57,6 +99,30 @@
     width: 30px;
     fill: #fff;
 }
+
+.sidebar-item input {
+    background: transparent;
+    color: #fff;
+    border: none;
+    line-height: 1.5rem;
+    font-size: 1.2rem;
+    font-family: inherit;
+    outline: none;
+    cursor: pointer;
+}
+
+.sidebar-item input.active {
+    outline: 2px solid #76B9ED;
+    cursor: text;
+}
+::selection {
+    background-color: #E2241A;
+    color: #fff;
+}
+::-moz-selection { /* Code for Firefox */
+    color: #E2241A;
+    background: #fff;
+  }
 
 .sidebar-section {
     display: flex;
@@ -84,45 +150,86 @@
     fill: #fff;
 }
 
-.sidebar-section .interactable-div.active {
+.sidebar-section .interactable-div:hover {
     background-color: #444;
 }
 
+.sidebar-section .project-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: 3rem;
+}
+
+.sidebar-section .project-list > .project-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.2rem 1.2rem;
+    overflow: hidden;
+}
+
+.sidebar-section .project-list > .project-item:hover {
+    background-color: #444;
+}
+.sidebar-section .project-list > .project-item .remove-project-btn svg {
+    width: 25px;
+    height: 20px;
+    fill:#FF0000;
+    opacity: 0.85;
+    cursor: pointer;
+}
+.sidebar-section .project-list > .project-item .remove-project-btn:hover svg {
+    opacity: 1;
+}
+
+.sidebar-section .project-list > .project-item svg {
+    min-width: 25px;
+    max-width: 25px;
+    margin-right: 1.5rem;
+    fill: #788CDE;
+}
+
+.sidebar-section .project-list > .project-item input {
+    max-width: 10rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .main-content {
-    margin: 2rem;
-    padding: 0 1rem;
+    --main-pad: 2rem;
+    padding: var(--main-pad) calc(1rem + var(--main-pad));
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-.bot .add-task-container {
+.task-item {
     display: flex;
     align-items: center;
     padding: 0 1rem;
-    background-color: #333;
-    opacity: 0.8;
+    background-color: #2A2A2A;
     border-radius: 10px;
-    margin: 1rem 0;
+    margin: 0.4rem 0;
 }
 
-.bot .add-task-container .icon-wrapper {
+.task-item .icon-wrapper {
     width: 30px;
     margin-right: 1rem;
     margin-left: 0.6rem;
 }
 
-.bot .add-task-container svg {
+.task-item svg {
     width: 30px;
     height: 30px;
     fill: #fff;
 }
 
-.add-task-container .icon-wrapper svg {
+.task-item .icon-wrapper svg {
     display: none;
 }
 
-.add-task-container .icon-wrapper svg.show {
+.task-item .icon-wrapper svg.show {
     display: block;
     animation: appear 0.3s;
 }
@@ -137,13 +244,120 @@
     }
 }
 
-.add-task-container input {
+.task-item .task-item-text {
     flex: 1;
     border: none;
     background: transparent;
     color: #fff;
-    line-height: 2rem;
     outline: none;
     font-size: 1rem;
-    height: 3.5rem;
+    min-height: 3.5rem;
+    line-height: 1.2rem;
+    padding: 1rem 0;
+    min-width: 20rem;
+}
+
+.task-list-item p {
+    display: flex;
+    align-items: center;
+}
+
+.task-list-item:hover {
+    background-color: #363636;
+    cursor: pointer;
+}
+
+.add-task-container {
+    opacity: 0.8;
+}
+
+.task-list-container {
+    height: 100%;
+    margin: 1rem 0;
+    overflow: auto;
+}
+
+.top {
+    height: 70%;
+}
+
+.task-list-container > #empty-task-display-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+}
+
+.task-list-container > #empty-task-display-container svg {
+    width: 100px;
+    margin-bottom: 1rem;
+}
+
+.util-option-container {
+    display: grid;
+    grid-auto-flow: column;
+    height: 100%;
+}
+
+.util-option-container > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.5rem;
+    cursor: pointer;
+    height: 100%;
+    color: #fff;
+    height: 100%;
+}
+
+.priority-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-family: 'lato-bold', sans-serif;
+    font-size: 1.25rem;
+}
+
+.priority-wrapper select {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    font-size: 1.25rem;
+    font-family: 'lato-bold', sans-serif;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+div#due-date > .icon-wrapper > svg {
+    display: flex;
+}
+
+.task-list-item {
+    position: relative;
+    overflow: hidden;
+}
+
+.task-list-item > .priority-indicator {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 0.4rem;
+    height: 100%;
+    border-radius: 0.5rem;
+}
+
+.task-list-item > .priority-indicator.priority-high {
+    background-color: #FF0000;
+}
+
+.task-list-item > .priority-indicator.priority-medium {
+    background-color: #FFA500;
+}
+
+.task-list-item > .priority-indicator.priority-low {
+    background-color: #008000;
 }
