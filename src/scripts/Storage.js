@@ -67,8 +67,6 @@ export default class Storage {
     static getProjectData(projectID) {
         const projects = JSON.parse(window.localStorage.getItem('projects'));
         if (projects[projectID] === undefined && projects['userProjects'][projectID] === undefined) {
-            console.log(projectID);
-            console.log(projects);
                 return {
                     success: false,
                     data: {}
@@ -84,6 +82,11 @@ export default class Storage {
     }
     static getProjects() {
         return Object.values(JSON.parse(window.localStorage.getItem('projects'))['userProjects']);
+    }
+    static getTaskData(projectID, taskID) {
+        const projects = JSON.parse(window.localStorage.getItem('projects'));
+        const task = projects[projectID].mainContent.taskList.find(task => task.id === taskID);
+        return task;
     }
 
     static addTaskToProject(projectID, task) {
@@ -147,15 +150,23 @@ export default class Storage {
     }
     static updateTaskInProject(projectID, task) {
         const projects = JSON.parse(window.localStorage.getItem('projects'));
-        const taskList = projects[projectID].mainContent.taskList;
-        const newTaskList = taskList.map(taskItem => {
-            if (taskItem.id === task.id) {
-                return task;
-            }
-            return taskItem;
-        });
+        if (this.existProject(projectID)) {
+            const project = projects[projectID] || projects['userProjects'][projectID];
+            const taskList = project.mainContent.taskList;
+            const newTaskList = taskList.map(taskItem => {
+                if (taskItem.id === task.id) {
+                    const updatedTask = Object.assign(taskItem, task);
+                    return updatedTask;
+                }
+                return taskItem;
+            });
+        if (projects[projectID] !== undefined) {
         projects[projectID].mainContent.taskList = newTaskList;
+        } else {
+            projects['userProjects'][projectID].mainContent.taskList = newTaskList;
+        }
         window.localStorage.setItem('projects', JSON.stringify(projects));
+        }
     }
     static existProject(projectID) {
         const projects = JSON.parse(window.localStorage.getItem('projects'));
@@ -167,7 +178,6 @@ export default class Storage {
     static updateProjectName(projectID, newProjectName) {
         const projects = JSON.parse(window.localStorage.getItem('projects'));
         if (this.existProject(projectID)) {
-            console.log('im in');
             projects['userProjects'][projectID].mainContent.heading.title = newProjectName;
             projects['userProjects'][projectID].sidebarItem.name = newProjectName;
             window.localStorage.setItem('projects', JSON.stringify(projects));

@@ -124,26 +124,20 @@ class TaskParser {
         const priorityIndicator = document.createElement('div');
         priorityIndicator.classList.add('priority-indicator', `priority-${this.#_task.priority}`);
         taskElem.appendChild(priorityIndicator);
-        const dataContainer = this.#createDataContainer({
-            'Due Date': this.#_task.dueDate,
-            'Project': this.#_task.project,
-            'Description': this.#_task.description,
-        });
-        taskElem.appendChild(dataContainer);
         return taskElem;
     }
-    #createDataContainer(data) {
-        const dataContainer = document.createElement('div');
-        dataContainer.classList.add('data-container');
-        dataContainer.style.display = 'none';
-        Object.entries(data).forEach(([key, value]) => {
-            const dataElem = document.createElement('p');
-            dataElem.id = key;
-            dataElem.textContent = value;
-            dataContainer.appendChild(dataElem);
-        });
-        return dataContainer;
-    }
+    // #createDataContainer(data) {
+    //     const dataContainer = document.createElement('div');
+    //     dataContainer.classList.add('data-container');
+    //     dataContainer.style.display = 'none';
+    //     Object.entries(data).forEach(([key, value]) => {
+    //         const dataElem = document.createElement('p');
+    //         dataElem.id = key;
+    //         dataElem.textContent = value;
+    //         dataContainer.appendChild(dataElem);
+    //     });
+    //     return dataContainer;
+    // }
     parse() {
         return this.#_DOMElem;
     }
