@@ -241,6 +241,10 @@ class CalendarModuleParser extends ModuleParser {
         this.#_DOMElem.appendChild(dateInputContainer);
     }
     #addDatePicker() {
+        const dateInputContainer = this.#_DOMElem.lastChild;
+        if (dateInputContainer.childElementCount > 0) {
+            dateInputContainer.lastChild.remove();
+        }
         let dateInput = document.createElement('input');
         dateInput.type = 'date';
         dateInput.placeholder = 'Due Date';

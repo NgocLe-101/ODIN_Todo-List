@@ -1,4 +1,4 @@
-import { startOfWeek, endOfWeek, add } from "date-fns";
+import { startOfWeek, endOfWeek, add, compareAsc, parse, format } from "date-fns";
 import Project from "./Project";
 const defaultArchive = [
     {
@@ -90,14 +90,15 @@ export default class Storage {
     }
 
     static addTaskToProject(projectID, task) {
-        const projects = JSON.parse(window.localStorage.getItem('projects'));
         const instance = new Storage();
         const taskID = instance.#generateID();
-        console.log(projects[projectID]);
-        projects[projectID].mainContent.taskList.push(
-            Object.assign(task, {id: taskID})
-        );
-        window.localStorage.setItem('projects', JSON.stringify(projects));
+        const taskObj = Object.assign(task, {id: taskID});
+        instance.#addTaskToArchive(taskObj);
+        if (projectID !== 'inbox') {
+            const projects = JSON.parse(window.localStorage.getItem('projects'));
+            projects['userProjects'][projectID].mainContent.taskList.push(taskObj);
+            window.localStorage.setItem('projects', JSON.stringify(projects));
+        }
         return {
             success: true,
             taskID: taskID
@@ -146,6 +147,41 @@ export default class Storage {
         const taskList = projects[projectID].mainContent.taskList;
         const newTaskList = taskList.filter(task => task.id !== taskID);
         projects[projectID].mainContent.taskList = newTaskList;
+        window.localStorage.setItem('projects', JSON.stringify(projects));
+        const instance = new Storage();
+        instance.#removeTaskFromArchive(taskID);
+    }
+    #isTodayTask(task) {
+        const taskDate = task.dueDate;
+        const today = new Date();
+        return compareAsc(format(today, 'yyyy-MM-dd'), format(taskDate, 'yyyy-MM-dd')) === 0;
+    }
+    #isThisWeekTask(task) {
+        const taskDate = task.dueDate;
+        const today = new Date();
+        const startOfWeekDate = startOfWeek(today);
+        const endOfWeekDate = add(endOfWeek(today), {days: 2});
+        return compareAsc(parse(taskDate, 'yyyy-MM-dd', new Date()), startOfWeekDate) === 1 && compareAsc(parse(taskDate, 'yyyy-MM-dd', new Date()), endOfWeekDate) === -1;
+    }
+    #addTaskToArchive(task) {
+        const projects = JSON.parse(window.localStorage.getItem('projects'));
+        projects['inbox'].mainContent.taskList.push(task);
+        if (this.#isTodayTask(task)) {
+            projects['today'].mainContent.taskList.push(task);
+        }
+        if (this.#isThisWeekTask(task)) {
+            projects['this-week'].mainContent.taskList.push(task);
+        }
+        window.localStorage.setItem('projects', JSON.stringify(projects));
+    }
+    #removeTaskFromArchive(taskID) {
+        const projects = JSON.parse(window.localStorage.getItem('projects'));
+        const archiveList = ['inbox', 'today', 'this-week'];
+        archiveList.forEach(archive => {
+            const taskList = projects[archive].mainContent.taskList;
+            const newTaskList = taskList.filter(task => task.id !== taskID);
+            projects[archive].mainContent.taskList = newTaskList;
+        });
         window.localStorage.setItem('projects', JSON.stringify(projects));
     }
     static updateTaskInProject(projectID, task) {
@@ -208,8 +244,14 @@ export default class Storage {
     static removeProject(projectID) {
         const projects = JSON.parse(window.localStorage.getItem('projects'));
         if (projects['userProjects'][projectID] !== undefined) {
+            // Remove all tasks from archive
+            const taskList = projects['userProjects'][projectID].mainContent.taskList;
             delete projects['userProjects'][projectID];
             window.localStorage.setItem('projects', JSON.stringify(projects));
+            const instance = new Storage();
+            taskList.forEach(task => {
+                instance.#removeTaskFromArchive(task.id);
+            });
             return {
                 success: true
             }

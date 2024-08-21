@@ -595,6 +595,10 @@ export default class UI {
           addTaskContainer.classList.remove('disabled');
         }
     })
+    this.#_pubSub.subscribe('projectRemove', () => {
+      this.Sidebar.renderProjectList(Storage.getProjects());
+      this.#_pubSub.publish('projectChange', 'inbox');
+    })
   }
 
   // Init event listeners
@@ -625,11 +629,6 @@ export default class UI {
           dueDate: dueDate,
           priority: priority.toLowerCase()
         }));
-        // this.addTaskToCurrentProject(new Task({
-        //   title: input.value,
-        //   dueDate: dueDate,
-        //   priority: priority.toLowerCase()
-        // }));
         input.value = "";
       }
     });
@@ -688,8 +687,7 @@ export default class UI {
 
   removeProject(projectID) {
     if (Storage.removeProject(projectID).success) {
-      // Reload the project list
-      this.Sidebar.renderProjectList(Storage.getProjects());
+      this.#_pubSub.publish('projectRemove');
     } else {
       console.error("Error: Project not found");
     }
