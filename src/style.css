@@ -213,6 +213,7 @@ body {
     display: flex;
     align-items: center;
     padding: 0 1rem;
+    padding-left: 0;
     background-color: #2A2A2A;
     border-radius: 10px;
     margin: 0.4rem 0;
@@ -221,7 +222,7 @@ body {
 .task-item .icon-wrapper {
     width: 30px;
     margin-right: 1rem;
-    margin-left: 0.6rem;
+    margin-left: 1rem;
 }
 
 .task-item svg {

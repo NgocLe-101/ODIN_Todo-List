@@ -173,12 +173,31 @@ export default class Storage {
         }
         window.localStorage.setItem('projects', JSON.stringify(projects));
     }
+    static getArchiveIDs() {
+        return defaultArchive.map(archive => archive.id);
+    }
     #removeTaskFromArchive(taskID) {
         const projects = JSON.parse(window.localStorage.getItem('projects'));
         const archiveList = ['inbox', 'today', 'this-week'];
         archiveList.forEach(archive => {
             const taskList = projects[archive].mainContent.taskList;
             const newTaskList = taskList.filter(task => task.id !== taskID);
+            projects[archive].mainContent.taskList = newTaskList;
+        });
+        window.localStorage.setItem('projects', JSON.stringify(projects));
+    }
+    #updateTaskInArchive(task) {
+        const projects = JSON.parse(window.localStorage.getItem('projects'));
+        const archiveList = Storage.getArchiveIDs();
+        archiveList.forEach(archive => {
+            const taskList = projects[archive].mainContent.taskList;
+            const newTaskList = taskList.map(taskItem => {
+                if (taskItem.id === task.id) {
+                    const updatedTask = Object.assign(taskItem, task);
+                    return updatedTask;
+                }
+                return taskItem;
+            });
             projects[archive].mainContent.taskList = newTaskList;
         });
         window.localStorage.setItem('projects', JSON.stringify(projects));
@@ -202,6 +221,8 @@ export default class Storage {
         }
         window.localStorage.setItem('projects', JSON.stringify(projects));
         }
+        const instance = new Storage();
+        instance.#updateTaskInArchive(task);
     }
     static existProject(projectID) {
         const projects = JSON.parse(window.localStorage.getItem('projects'));
