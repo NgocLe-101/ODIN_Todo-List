@@ -302,7 +302,7 @@ export default class UI {
     })
     this.#_pubSub.subscribe('projectRemove', () => {
       this.Sidebar.renderProjectList(Storage.getProjects());
-      this.#_pubSub.publish('projectChange', 'inbox');
+      this.#_pubSub.publish('projectChange', Storage.getActiveProject().id);
     })
   }
 

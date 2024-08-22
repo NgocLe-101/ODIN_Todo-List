@@ -88,7 +88,6 @@ export default class Storage {
         const task = projects[projectID].mainContent.taskList.find(task => task.id === taskID);
         return task;
     }
-
     static addTaskToProject(projectID, task) {
         const instance = new Storage();
         const taskID = instance.#generateID();
