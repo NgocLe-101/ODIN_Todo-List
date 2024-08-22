@@ -262,6 +262,26 @@ body {
     min-width: 20rem;
 }
 
+.task-list-item .task-module {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    color: #fff;
+    padding: 0 0.5rem;
+    font-size: 0.8rem;
+}
+
+.task-module .icon-wrapper {
+    margin-right: 0.5rem;
+    width: fit-content;
+}
+
+.task-module svg {
+    width: 0.8rem;
+    height: 0.8rem;
+}
+
 .task-list-item p {
     display: flex;
     align-items: center;
@@ -270,6 +290,23 @@ body {
 .task-list-item:hover {
     background-color: #363636;
     cursor: pointer;
+}
+
+.task-list-item.finished {
+    opacity: 0.5;
+    background-color: #363636;
+}
+
+.task-list-item.finished .task-item-text {
+    text-decoration: line-through;
+}
+
+.task-list-item.due-date-exceeded .task-module.calendar-module {
+    color: red;
+}
+
+.task-list-item.due-date-exceeded .task-module.calendar-module svg {
+    fill: red;
 }
 
 .add-task-container {

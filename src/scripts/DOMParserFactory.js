@@ -48,11 +48,12 @@ class IconParser {
         return this.#_DOMElem;
     }
 }
-
+import { TaskConfig } from "./Config";
 class TaskParser {
     #_DOMElem;
     #_task;
     constructor(task) {
+        Object.assign(task, {modules: TaskConfig.modules});
         this.#_task = task;
         this.#_DOMElem = this.#createDOMTask();
     }
@@ -84,6 +85,12 @@ class TaskParser {
     #createDOMTask() {
         const taskElem = document.createElement('div');
         taskElem.classList.add('task-item', 'task-list-item');
+        if (this.#_task.getState().state === 'finished') {
+            taskElem.classList.add('finished');
+        }
+        if (this.#_task.getState().dueDateExceeded) {
+            taskElem.classList.add('due-date-exceeded');
+        }
         
         const iconParser = this.#createTaskIcon(this.#_task.icon);
         const iconBehavior = {
@@ -107,6 +114,9 @@ class TaskParser {
             }
         }
         iconParser.addEventsToIcon(iconBehavior);
+        if (this.#_task.getState().state === 'finished') {
+            iconParser.putOnShow('CHECK_FILLED');
+        }
 
         const taskItemText = document.createElement('div');
         taskItemText.classList.add('task-item-text');
@@ -118,7 +128,7 @@ class TaskParser {
         taskElem.appendChild(iconParser.parse());
         taskElem.appendChild(taskItemText);
         this.#_task.modules.forEach(module => {
-            taskElem.appendChild(module.getDOMModule());
+            taskElem.appendChild(module.getDOMModule(this.#_task));
         });
 
         const priorityIndicator = document.createElement('div');
@@ -126,18 +136,16 @@ class TaskParser {
         taskElem.appendChild(priorityIndicator);
         return taskElem;
     }
-    // #createDataContainer(data) {
-    //     const dataContainer = document.createElement('div');
-    //     dataContainer.classList.add('data-container');
-    //     dataContainer.style.display = 'none';
-    //     Object.entries(data).forEach(([key, value]) => {
-    //         const dataElem = document.createElement('p');
-    //         dataElem.id = key;
-    //         dataElem.textContent = value;
-    //         dataContainer.appendChild(dataElem);
-    //     });
-    //     return dataContainer;
-    // }
+    addEventsToIcon(events) {
+        const icon = this.#_DOMElem.querySelector('.icon-wrapper');
+        Object.entries(events).forEach(([event, listener]) => {
+            icon.addEventListener(event, listener);
+        });
+    }
+    getTask() {
+        return this.#_task;
+    }
+
     parse() {
         return this.#_DOMElem;
     }

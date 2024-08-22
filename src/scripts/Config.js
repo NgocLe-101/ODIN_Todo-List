@@ -1,4 +1,4 @@
-import { CalendarModuleParser, DropdownModuleParser } from "./DOMParserFactory";
+import { CalendarModuleParser, DropdownModuleParser, IconParser } from "./DOMParserFactory";
 import Icon from "./Icon";
 const TaskConfig = {
     title: '',
@@ -12,7 +12,36 @@ const TaskConfig = {
     ,
     modules: [
         // currently not implemented
+        // CalendarModule
+        {
+            createTaskIcon: function(icon) {
+                const iconParser = new IconParser(icon);
+                return iconParser;
+            },
+            createDOMModule: function(task) {
+                const DOMElem = document.createElement('div');
+                DOMElem.classList.add('task-module','calendar-module');
+                const calendarIcon = this.createTaskIcon(
+                    new Icon({
+                        defaultIcon: 'CALENDAR',
+                        iconList: ['CALENDAR']
+                    })
+                );
+                DOMElem.appendChild(calendarIcon.parse());
+                const calendarText = document.createElement('p');
+                calendarText.textContent = task.dueDate;
+                DOMElem.appendChild(calendarText);
+                return DOMElem;
+            },
+            getDOMModule: function(task) {
+                return this.createDOMModule(task);
+            }
+        }
     ],
+    state: {
+        state: 'unfinished',
+        dueDateExceeded: false
+    }
 }
 
 const ProjectConfig = {
