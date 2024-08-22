@@ -85,8 +85,9 @@ export default class Storage {
     }
     static getTaskData(projectID, taskID) {
         const projects = JSON.parse(window.localStorage.getItem('projects'));
-        const task = projects[projectID].mainContent.taskList.find(task => task.id === taskID);
-        return task;
+        const task = projects[projectID] || projects['userProjects'][projectID];
+        const taskData = task.mainContent.taskList.find(task => task.id === taskID);
+        return taskData;
     }
     static addTaskToProject(projectID, task) {
         const instance = new Storage();
